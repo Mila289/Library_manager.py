@@ -1,5 +1,8 @@
 import json
 import os
+from random import choice
+
+
 class Book:
     def __init__(self, id: int, title: str, author: str, year: int, status: str="в наличии"):
         self.id=id
@@ -42,3 +45,34 @@ class Book:
             if year:
                 result=[book for book in result if book.year==year]
             return result
+        def display_book(self):
+            for book in self.books:
+                print(f"ID: {book.id}, Title: {book.title}, Author: {book.author}, Year: {book.year}, Status: {book.status}")
+        def change_status(self, book_id: int, status: str):
+            for book in self.books:
+                if book.id==book_id:
+                    if status in ("в наличии", "выдана"):
+                        book.status=status
+                        self.save_books()
+                    else:
+                        print("Недопустимый статус. Статус может быть 'в наличии' или 'выдана'.")
+                    return
+                print(f"Книга с ID {book_id} не найдена.")
+    def main():
+        library=Library()
+        while True:
+            print("\nВведите номер необходимого действия:")
+            print("1. Добавить книгу")
+            print("2. Удалить книгу")
+            print("3. Найти книгу")
+            print("4. Отобразить все книги")
+            print("5. Изменить статус книги")
+            print("0. Выйти")
+            choice=input("Ваш выбор:")
+            if choice=='1':
+                title=input("Введите название книги:")
+                author=input("Введите автора книги:")
+                year=int(input("Введите год издания:"))
+                library.add_book(title, author, year)
+
+
