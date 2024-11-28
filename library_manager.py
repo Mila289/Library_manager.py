@@ -1,6 +1,9 @@
 import json
 import os
 from random import choice
+from re import search
+
+from future.types import newint
 
 
 class Book:
@@ -74,5 +77,37 @@ class Book:
                 author=input("Введите автора книги:")
                 year=int(input("Введите год издания:"))
                 library.add_book(title, author, year)
+            elif choice=='2':
+                book_id=int(input("Введите ID книги для удаления:"))
+                library.remove_book(book_id)
+            elif choice=='3':
+                search_type=input("Введите, по какому параметру искать (title, author, year):")
+                if search_type=='title':
+                    title=input("Введите название книги:")
+                    results=library.find_books(title=title)
+            elif search_type=='author':
+                author=input("Введите автора:")
+                results=library.find_books(author=author)
+            elif search_type=='year':
+                year=int(input("Введите год:"))
+                results=library.find_books(year=year)
+            else:
+                print("Неверный параметр.")
+                continue
+            for book in results:
+                print(f"ID: {book.id}, Title:{book.title}, Author: {book.author}, Year: {book.year}, Status: {book.status}")
+            elif choice=='4':
+                library.display_books()
+            elif choice=='5':
+                book_id = int(input("Введите ID книги для изменения статуса:"))
+                new_status=input("Введите новый статус (в наличии / выдана):")
+                library.change_status(book_id, new_status)
+            elif choice=='0':
+                break
+            else:
+                print("Неверный выбор, попробуйте снова.")
+            if __name__=="__main__":
+        main()
+
 
 
